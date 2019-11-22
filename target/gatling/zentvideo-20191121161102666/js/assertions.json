@@ -1,0 +1,10 @@
+{
+  "simulation": "com.zemtpeople.gatling.ZentVideo",
+  "simulationId": "zentvideo",
+  "start": 1574352662666,
+  "description": "",
+  "scenarios": ["ZentVideo"],
+  "assertions": [
+
+  ]
+}

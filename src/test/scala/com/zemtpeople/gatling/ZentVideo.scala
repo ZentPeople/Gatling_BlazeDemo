@@ -15,6 +15,7 @@ class ZentVideo extends Simulation {
 		.acceptEncodingHeader("gzip, deflate")
 		.acceptLanguageHeader("en-US,en;q=0.5")
 		.userAgentHeader("Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:70.0) Gecko/20100101 Firefox/70.0")
+  	.silentResources
 
 	val headers_0 = Map("Content-Type" -> "application/ocsp-request")
 
@@ -51,20 +52,22 @@ class ZentVideo extends Simulation {
     val uri2 = "http://ocsp.comodoca4.com"
 
 	val scn = scenario("ZentVideo")
-		.exec(http("request_0")
-			.post(uri1)
-			.headers(headers_0)
-			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0000_request.dat"))
-			.resources(http("request_1")
-			.post(uri1)
-			.headers(headers_0)
-			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0001_request.dat")),
-            http("request_2")
-			.post(uri1)
-			.headers(headers_0)
-			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0002_request.dat"))))
-		.pause(9)
-		.exec(http("request_3")
+//		.exec(http("request_0")
+//			.post(uri1)
+//			.headers(headers_0)
+//			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0000_request.dat"))
+//			.resources(http("request_1")
+//			.post(uri1)
+//			.headers(headers_0)
+//			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0001_request.dat")),
+//            http("request_2")
+//			.post(uri1)
+//			.headers(headers_0)
+//			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0002_request.dat"))))
+//		.pause(9)
+//
+
+		.exec(http("Homepage")
 			.get("/")
 			.headers(headers_3)
 			.resources(http("request_4")
@@ -87,8 +90,11 @@ class ZentVideo extends Simulation {
 			.get("/uploads/landing_page/bg.jpg")
 			.headers(headers_8)))
 		.pause(14)
+
+
+
 		// Click Login
-		.exec(http("request_9")
+		.exec(http("Login Page")
 			.get("/user/login")
 			.headers(headers_3)
 			.resources(http("request_10")
@@ -98,8 +104,10 @@ class ZentVideo extends Simulation {
 			.get("/assets/front_end/fonts/ionicons28b5.ttf?v=2.0.0")
 			.headers(headers_11)))
 		.pause(9)
+
+
 		// Login
-		.exec(http("request_12")
+		.exec(http("Click Login")
 			.post("/user/do_login")
 			.headers(headers_12)
 			.formParam("email", "mohanmurugesan02@gmail.com")
@@ -155,26 +163,34 @@ class ZentVideo extends Simulation {
             http("request_32")
 			.get("/assets/images/favicon.ico")
 			.headers(headers_8)))
-		.pause(16)
+		.pause(0)
+
+
+
 		// Click Movies /  Videos
-		.exec(http("request_33")
+		.exec(http("Click Movies")
 			.get("/admin/videos_add/")
 			.headers(headers_3))
 		.pause(14)
 		.exec(http("request_34")
 			.get("/admin/load_stars?term=mo&q=mo")
-			.headers(headers_34))
+			.headers(headers_34)
+			.silent)
 		.pause(2)
 		.exec(http("request_35")
 			.get("/admin/load_stars?term=de&q=de")
-			.headers(headers_34))
+			.headers(headers_34)
+			.silent)
 		.pause(2)
 		.exec(http("request_36")
 			.get("/admin/load_stars?term=de&q=de")
-			.headers(headers_34))
+			.headers(headers_34)
+			.silent)
 		.pause(43)
+
+
 		// Click create
-		.exec(http("request_37")
+		.exec(http("Click create Video")
 			.post("/admin/videos/add/")
 			.headers(headers_37)
 			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0037_request.dat"))
@@ -185,8 +201,10 @@ class ZentVideo extends Simulation {
 			.get("/uploads/user.jpg?1574350240")
 			.headers(headers_8)))
 		.pause(10)
+
+
 		// Preview
-		.exec(http("request_40")
+		.exec(http("Preview Uploaded File")
 			.get("/watch/title")
 			.headers(headers_3)
 			.resources(http("request_41")
@@ -206,13 +224,15 @@ class ZentVideo extends Simulation {
 			.headers(headers_0)
 			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0044_request.dat"))))
 		.pause(14)
+
+
 		// Logout
-		.exec(http("request_45")
+		.exec(http("logout")
 			.get("/login/logout")
 			.headers(headers_3)
 			.resources(http("request_46")
 			.get("/")
 			.headers(headers_3)))
 
-	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol).disablePauses
 }
