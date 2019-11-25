@@ -15,6 +15,7 @@ class DemoTours extends Simulation {
 		.acceptEncodingHeader("gzip, deflate")
 		.acceptLanguageHeader("en-US,en;q=0.9")
 		.userAgentHeader("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
+  	.silentResources
 
 	val headers_0 = Map(
 		"Proxy-Connection" -> "keep-alive",
@@ -43,15 +44,18 @@ class DemoTours extends Simulation {
 			.get("/favicon.ico")
 			.headers(headers_1)))
 		.pause(17)
+
 		// Find Flights
-		.exec(http("request_3")
+		.exec(http("Find Flights")
 			.post("/reserve.php")
 			.headers(headers_3)
 			.formParam("fromPort", "Paris")
 			.formParam("toPort", "Buenos Aires"))
 		.pause(13)
+
+
 		// Choose this flight
-		.exec(http("request_4")
+		.exec(http("click on choose this flight")
 			.post("/purchase.php")
 			.headers(headers_3)
 			.formParam("flight", "234")
@@ -60,8 +64,10 @@ class DemoTours extends Simulation {
 			.formParam("fromPort", "Paris")
 			.formParam("toPort", "Buenos Aires"))
 		.pause(36)
+
+
 		// Submit details
-		.exec(http("request_5")
+		.exec(http("Submit Flight Details")
 			.post("/confirmation.php")
 			.headers(headers_3)
 			.formParam("_token", "")
@@ -77,10 +83,8 @@ class DemoTours extends Simulation {
 			.formParam("nameOnCard", "MOhan")
 			.formParam("rememberMe", "on"))
 		.pause(17)
-		// Homepage
-		.exec(http("request_6")
-			.get("/home")
-			.headers(headers_0))
+
 
 	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+		.disablePauses
 }
