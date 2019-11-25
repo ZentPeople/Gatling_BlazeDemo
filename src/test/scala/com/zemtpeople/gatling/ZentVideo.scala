@@ -15,6 +15,7 @@ class ZentVideo extends Simulation {
 		.acceptEncodingHeader("gzip, deflate")
 		.acceptLanguageHeader("en-US,en;q=0.5")
 		.userAgentHeader("Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:70.0) Gecko/20100101 Firefox/70.0")
+		.proxy(Proxy("localhost", 8888).httpsPort(8888))
   	.silentResources
 
 	val headers_0 = Map("Content-Type" -> "application/ocsp-request")
@@ -193,7 +194,7 @@ class ZentVideo extends Simulation {
 		.exec(http("Click create Video")
 			.post("/admin/videos/add/")
 			.headers(headers_37)
-			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0037_request.dat"))
+//			.body(RawFileBody("com/zemtpeople/gatling/zentvideo/0037_request.dat"))
 			.resources(http("request_38")
 			.get("/admin/file_and_download/3")
 			.headers(headers_3),

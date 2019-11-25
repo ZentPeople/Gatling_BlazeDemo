@@ -1,0 +1,18 @@
+RUN	com.zemtpeople.gatling.ZentVideo	zentvideo	1574402423839	 	3.3.1
+USER	ZentVideo	1	START	1574402425957	1574402425957
+REQUEST	1		Homepage	1574402426213	1574402426485	OK	 
+ERROR	request_4: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0004_request.dat not found 	1574402426651
+ERROR	request_5: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0005_request.dat not found 	1574402426651
+ERROR	request_6: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0006_request.dat not found 	1574402426652
+ERROR	request_7: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0007_request.dat not found 	1574402426652
+REQUEST	1		Login Page	1574402427153	1574402427214	OK	 
+REQUEST	1		Click Login	1574402427617	1574402427678	OK	 
+REQUEST	1		Click Movies	1574402428005	1574402428089	OK	 
+ERROR	Click create Video: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0037_request.dat not found 	1574402428689
+REQUEST	1		Preview Uploaded File	1574402428692	1574402428821	OK	 
+ERROR	request_41: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0041_request.dat not found 	1574402428841
+ERROR	request_42: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0042_request.dat not found 	1574402428841
+ERROR	request_43: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0043_request.dat not found 	1574402428841
+ERROR	request_44: Failed to build request: Resource com/zemtpeople/gatling/zentvideo/0044_request.dat not found 	1574402428841
+REQUEST	1		logout	1574402429008	1574402429054	OK	 
+USER	ZentVideo	1	END	1574402425957	1574402429127
