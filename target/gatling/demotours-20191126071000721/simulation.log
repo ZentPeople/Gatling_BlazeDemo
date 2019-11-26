@@ -1,7 +1,0 @@
-RUN	com.zemtpeople.gatling.DemoTours	demotours	1574752200721	 	3.3.1
-USER	DemoTours	1	START	1574752202598	1574752202598
-REQUEST	1		Homepage	1574752202644	1574752203163	OK	 
-REQUEST	1		Find Flights	1574752204088	1574752204255	KO	regex(input type="hidden" value="(.+?)" name="flight").find(5).exists, found nothing
-ERROR	Click on Choose this Flight: Failed to build request: No attribute named 'flightNummber' is defined 	1574752204266
-REQUEST	1		Submit Flight Details	1574752204275	1574752204448	OK	 
-USER	DemoTours	1	END	1574752202598	1574752204672

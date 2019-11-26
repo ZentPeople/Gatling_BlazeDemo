@@ -1,7 +1,0 @@
-RUN	com.zemtpeople.gatling.DemoTours	demotours	1574752840909	 	3.3.1
-USER	DemoTours	1	START	1574752842755	1574752842755
-REQUEST	1		Homepage	1574752842800	1574752843328	OK	 
-REQUEST	1		Find Flights	1574752844253	1574752844426	KO	j.u.r.PatternSyntaxException: Unmatched closing ')' near index 48  <input type="hidden" name="fromPort" value="(.+?))"/>                                                  ^
-ERROR	Click on Choose this Flight: Failed to build request: No attribute named 'flightNummber' is defined 	1574752844455
-REQUEST	1		Submit Flight Details	1574752844460	1574752844629	OK	 
-USER	DemoTours	1	END	1574752842755	1574752844844

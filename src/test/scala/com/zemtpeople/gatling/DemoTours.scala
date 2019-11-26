@@ -52,11 +52,14 @@ class DemoTours extends Simulation {
 			.headers(headers_1),
             http("request_2")
 			.get("/favicon.ico")
-			.headers(headers_1)))
-		.pause(17)
+			.headers(headers_1))
+			.check(regex("Welcome to the Simple Travel Agency!").exists))
+		.pause(3 seconds)
+
+		.repeat(5){
 
 		// Find Flights
-		.feed(CSV_City)
+		feed(CSV_City)
 		.exec(http("Find Flights")
 			.post("/reserve.php")
 			.headers(headers_3)
@@ -73,10 +76,9 @@ class DemoTours extends Simulation {
 				.find(random).saveAs("fromPort"),
 			regex("input type=\"hidden\" name=\"toPort\" value=\"(.+?)\"")
 				.find(random).saveAs("toPort"),
-			))
-		.pause(13)
-
-
+			)
+			.check(regex("Flights from (.+?) to (.+?):").exists))
+		.pause(3 seconds)
 		// Choose this flight
 		.exec(http("Click on Choose this Flight")
 			.post("/purchase.php")
@@ -85,10 +87,9 @@ class DemoTours extends Simulation {
 			.formParam("price", "${price}")
 			.formParam("airline", "${airline}")
 			.formParam("fromPort", "${fromPort}")
-			.formParam("toPort", "${toPort}"))
-		.pause(36)
-
-
+			.formParam("toPort", "${toPort}")
+			.check(regex("Your flight from (.+?) to (.+?) has been reserved.").exists))
+		.pause(3 seconds)
 		// Submit details
 		.exec(http("Submit Flight Details")
 			.post("/confirmation.php")
@@ -104,10 +105,13 @@ class DemoTours extends Simulation {
 			.formParam("creditCardMonth", "11")
 			.formParam("creditCardYear", "2017")
 			.formParam("nameOnCard", "MOhan")
-			.formParam("rememberMe", "on"))
-		.pause(17)
+			.formParam("rememberMe", "on")
+			.check(regex("Thank you for your purchase today!").exists))
+		.pause(3 seconds)
+
+	}
+
+	setUp(scn.inject( rampUsers(10) during(40 seconds))).protocols(httpProtocol)
 
 
-	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
-		.disablePauses
 }
