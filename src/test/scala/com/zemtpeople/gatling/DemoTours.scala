@@ -15,7 +15,14 @@ class DemoTours extends Simulation {
 		.acceptEncodingHeader("gzip, deflate")
 		.acceptLanguageHeader("en-US,en;q=0.9")
 		.userAgentHeader("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
-  	.silentResources
+		.silentResources
+		.proxy(Proxy("127.0.0.1", 8888)
+//				.httpsPort(8888)
+		)
+
+	val CSV_City = csv("src/test/scala/com/zemtpeople/gatling/CityData.csv").circular
+
+
 
 	val headers_0 = Map(
 		"Proxy-Connection" -> "keep-alive",
@@ -34,7 +41,8 @@ class DemoTours extends Simulation {
 
 	val scn = scenario("DemoTours")
 		// Homepage
-		.exec(http("request_0")
+
+		.exec(http("Homepage")
 			.get("/")
 			.headers(headers_0)
 			.resources(http("request_1")
@@ -46,11 +54,12 @@ class DemoTours extends Simulation {
 		.pause(17)
 
 		// Find Flights
+		.feed(CSV_City)
 		.exec(http("Find Flights")
 			.post("/reserve.php")
 			.headers(headers_3)
-			.formParam("fromPort", "Paris")
-			.formParam("toPort", "Buenos Aires"))
+			.formParam("fromPort", "${From}")
+			.formParam("toPort", "${To}"))
 		.pause(13)
 
 
