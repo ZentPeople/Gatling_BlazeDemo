@@ -1,0 +1,10 @@
+{
+  "simulation": "com.zemtpeople.gatling.DemoTours",
+  "simulationId": "demotours",
+  "start": 1574751114295,
+  "description": "",
+  "scenarios": ["DemoTours"],
+  "assertions": [
+
+  ]
+}

@@ -1,8 +1,7 @@
 package com.zemtpeople.gatling
 
 import scala.concurrent.duration._
-
-import io.gatling.core.Predef._
+import io.gatling.core.Predef.{regex, _}
 import io.gatling.http.Predef._
 import io.gatling.jdbc.Predef._
 
@@ -17,7 +16,7 @@ class DemoTours extends Simulation {
 		.userAgentHeader("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
 		.silentResources
 		.proxy(Proxy("127.0.0.1", 8888)
-//				.httpsPort(8888)
+
 		)
 
 	val CSV_City = csv("src/test/scala/com/zemtpeople/gatling/CityData.csv").circular
@@ -37,7 +36,10 @@ class DemoTours extends Simulation {
 		"Proxy-Connection" -> "keep-alive",
 		"Upgrade-Insecure-Requests" -> "1")
 
-
+	//		Generate a random value to extract
+	val r = new scala.util.Random
+	val random = r.nextInt(6)
+	println("Random value " + random)
 
 	val scn = scenario("DemoTours")
 		// Homepage
@@ -59,19 +61,31 @@ class DemoTours extends Simulation {
 			.post("/reserve.php")
 			.headers(headers_3)
 			.formParam("fromPort", "${From}")
-			.formParam("toPort", "${To}"))
+			.formParam("toPort", "${To}")
+			.check(
+			regex("input type=\"hidden\" value=\"(.+?)\" name=\"flight\"")
+				.find(random).saveAs("flightNummber"),
+  		regex("input type=\"hidden\" value=\"(.+?)\" name=\"price\"")
+				.find(random).saveAs("price"),
+			regex("input type=\"hidden\" value=\"(.+?)\" name=\"airline\"")
+				.find(random).saveAs("airline"),
+			regex("input type=\"hidden\" name=\"fromPort\" value=\"(.+?)\"")
+				.find(random).saveAs("fromPort"),
+			regex("input type=\"hidden\" name=\"toPort\" value=\"(.+?)\"")
+				.find(random).saveAs("toPort"),
+			))
 		.pause(13)
 
 
 		// Choose this flight
-		.exec(http("click on choose this flight")
+		.exec(http("Click on Choose this Flight")
 			.post("/purchase.php")
 			.headers(headers_3)
-			.formParam("flight", "234")
-			.formParam("price", "432.98")
-			.formParam("airline", "United Airlines")
-			.formParam("fromPort", "Paris")
-			.formParam("toPort", "Buenos Aires"))
+			.formParam("flight", "${flightNummber}")
+			.formParam("price", "${price}")
+			.formParam("airline", "${airline}")
+			.formParam("fromPort", "${fromPort}")
+			.formParam("toPort", "${toPort}"))
 		.pause(36)
 
 
